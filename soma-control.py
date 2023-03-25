@@ -29,36 +29,50 @@ def open_shade(host,mac):
 
 	# If you have a U1 change to match its API 
 	# https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
-
 	url = f"http://{host}:3000/open_shade/{mac}"
 	# Open the device one at a time 
 	devices = requests.get(url)
+
 # Function for closing the shades 
 def close_shade(host,mac): 
+
 	# If you have a U1 change to match its API 
 	# https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
-
 	url = f"http://{host}:3000/close_shade/{mac}"
 	# Close the device one at a time 
 	devices = requests.get(url)
-# Function for listing the battery levels of the shades 
+
 def list_battery(host, mac): 
 	url = f"http://{host}:3000/get_battery_level/{mac}"
 	battery_level = requests.get(url)
 	return battery_level.json()['battery_percentage']
-# Function for listing the state of the shades 
+
 def shade_state(host,mac): 
-	#get_shade_state
 	url = f"http://{host}:3000/get_shade_state/{mac}"
 	shade_state = requests.get(url)
 	return shade_state.json()['position']
-# Function for light levels of the shades 
+
 def light_level(host,mac): 
-	#get_light_level
 	url = f"http://{host}:3000/get_light_level/{mac}"
 	shade_state = requests.get(url)
 	return shade_state.json()['light_level']
 
+def set_shade_position(host, mac, position): 
+	# set the shades to a given position 
+	# 0 is open 
+	# 100 is closed 
+	# -100 is closed up
+	# 50 is half open 
+	# -50 is half open up 
+	url = f"http://{host}:3000/set_shade_position/{mac}/{position}"
+	shade_state = requests.get(url)
+# Not working with this code yet because you may want to stop ONE device 
+#not all of them but this is here for anyone else who wants to implment on 
+# their own 
+def stop_shade(host,mac): 
+	#stop_shade
+	url = f"http://{host}:3000/stop_shade/{mac}"
+	shade_state = requests.get(url)
 #
 # MAIN function 
 #
@@ -69,7 +83,7 @@ def main():
 	# Set up arguments
 	parser.add_argument('host', type=str, help="The host ot connect to e.g.: 127.0.01")
 	parser.add_argument('action',type=str, help="The action you want to perform: open, close, \
-		battery, state, light")
+		battery, state, light, half-open")
 
 	# Parse the arguments 
 	args = parser.parse_args()
@@ -100,6 +114,9 @@ def main():
 		elif action == "light":
 			print(f"--- {names[x]} light level {light_level(host, device)}")
 			x += 1
+		elif action == "half-open": 
+			# set the shade to half open
+			set_shade_position(host,device,50)
 
 		else:
 			print(f"Wrong Option {action}")
