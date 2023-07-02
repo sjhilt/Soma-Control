@@ -3,7 +3,7 @@ import argparse
 import sys
 
 # List the devices that are attached to the soma connect
-# If you have a U1 Device which I don't the API changed a bit
+# This is for the U1 USB device not the connect RPi
 # https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
 def list_devices(host):
     # Build the URL
@@ -27,7 +27,7 @@ def list_devices(host):
 # Function for opening the shades
 def open_shade(host,mac):
 
-    # If you have a U1 change to match its API
+    # This is for the U1 USB device not the connect RPi
     # https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
     url = f"http://{host}:3000/open_shade?mac={mac}"
     # Open the device one at a time
@@ -36,33 +36,43 @@ def open_shade(host,mac):
 # Function for closing the shades
 def close_shade(host,mac):
 
-    # If you have a U1 change to match its API
+    # This is for the U1 USB device not the connect RPi
     # https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
     url = f"http://{host}:3000/close_shade?mac={mac}"
     # Close the device one at a time
     devices = requests.get(url)
 
 def list_battery(host, mac):
+    # This is for the U1 USB device not the connect RPi
+    # https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
     url = f"http://{host}:3000/get_battery_level?mac={mac}"
     battery_level = requests.get(url)
     return battery_level.json()['battery_percentage']
 
 def shade_state(host,mac):
+    # This is for the U1 USB device not the connect RPi
+    # https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
     url = f"http://{host}:3000/get_shade_state?mac={mac}"
     shade_state = requests.get(url)
     return shade_state.json()['position']
 
 def light_level(host,mac):
+    # This is for the U1 USB device not the connect RPi
+    # https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
     url = f"http://{host}:3000/get_light_level/{mac}"
     shade_state = requests.get(url)
     return shade_state.json()['light_level']
 
 def set_shade_position(host, mac, position):
+    # This is for the U1 USB device not the connect RPi
+    # https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
     #set_shade_position
     url = f"http://{host}:3000/set_shade_position?mac={mac}&pos={position}"
     shade_state = requests.get(url)
 
 def stop_shade(host,mac):
+    # This is for the U1 USB device not the connect RPi
+    # https://support.somasmarthome.com/hc/en-us/articles/360026064234-HTTP-API
     #stop_shade
     url = f"http://{host}:3000/stop_shade?mac={mac}"
     shade_state = requests.get(url)
